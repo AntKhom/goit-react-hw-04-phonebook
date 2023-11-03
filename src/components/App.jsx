@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { nanoid } from "nanoid";
 
 import ContactForm from "./ContactForm";
@@ -18,27 +18,10 @@ const App = () => {
     ];
   });
     const [filter, setFilter] = useState('');
-    // state = {
-    //     contacts: [],
-    //     filter: '',    
-    // }
 
-    // componentDidMount() {
-    //     console.log('DM');
-    //     const myContacts = localStorage.getItem('myContacts');
-    //     const parsedMyContacts = JSON.parse(myContacts);
-    //     if (parsedMyContacts) {
-    //         this.setState({contacts: parsedMyContacts});
-    //     };
-    // };
-    
-    // componentDidUpdate(prevProps, prevState) {
-    //     console.log('DU');
-    //     if (prevState.contacts !== this.state.contacts) {
-    //         localStorage.setItem('myContacts', JSON.stringify(this.state.contacts));
-    //     }
-        
-    // };
+    useEffect(() => {
+        window.localStorage.setItem("contacts", JSON.stringify(contacts));
+    }, [contacts]); 
     
     const handleChange = (e) => {
         if (e.target.name==='name') {
@@ -87,9 +70,7 @@ const App = () => {
     const deleteContact = (e) => {   
         console.log(e.target.parentNode.parentNode.firstElementChild.innerText);
         const name = e.target.parentNode.parentNode.firstElementChild.innerText;
-        this.setState(prevState => ({
-            contacts: prevState.contacts.filter(contact => contact.name!== name)
-        }));
+        setContacts(prevState => (contacts.filter(contact => contact.name!== name)));
     }
 
     const filteredContacts = filterContacts();  
